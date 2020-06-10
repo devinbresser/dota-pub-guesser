@@ -1689,6 +1689,8 @@ function getHeroName(playerNum){
     }
 }
 
+var victor = matchData.result.radiant_win;
+
 function cleanHeroName(name){
     return name.replace('npc_dota_hero_','');
 }
@@ -1699,13 +1701,19 @@ for(let i=0; i<10; i++){
     heroArray.push(cleanHeroName(getHeroName(i)));
 }
 
+// populate the images from hero info in the JSON file
 for(let i=0; i<5;i++){
     document.getElementById("radiant"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[i]+"_sb.png";
 }
-//document.getElementById("radiant1").src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[0]+"_sb.png";
-console.log(heroArray[3]);
-console.log("http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[0]+"_sb.png")
-//console.log(heroList.result.heroes.)
+for(let i=0; i<5;i++){
+    document.getElementById("dire"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[5+i]+"_sb.png";
+}
+
+// when a victory button is clicked, do something...
+document.getElementById("radiant-victory-button").onclick = function(){
+    alert("Test");
+}
+
 // location of hero icons:
 // http://cdn.dota2.com/apps/dota2/images/heroes/[HERONAME]_lg.png
 
