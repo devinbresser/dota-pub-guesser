@@ -43,10 +43,11 @@ p{
 }
 
 .team-lineups{
+    display:flex;
     width:775px;
     height:500px;
     margin: auto auto;
-    margin-bottom:10px;
+    margin-bottom:auto;
 }
 
 .won-box{
@@ -66,22 +67,20 @@ p{
 }
 
 .radiant-lineup{
-    position:relative;
     width:340px;
-    height:400px;
+    height:80px;
     display:inline-block;
-    margin-top:5%;
     margin: auto auto;
+    margin-top:4%;
 }
 
 .dire-lineup{
-    position:relative;
-    right:-75px;
+
     width:340px;
-    height:400px;
+    height:80px;
     display:inline-block;
-    margin-top:5%;
     margin: auto auto;
+    margin-top:4%;
 }
 
 .hero-pic{
@@ -111,8 +110,8 @@ p{
         <div class="top-text"><h3>Round 1</h3></div>
 
         <div class="won-box bordered">
-            <div class="won-button bordered top-text"><img src="./images/radiant-victory.png"></img></div>
-            <div class="won-button bordered top-text"><img src="./images/dire-victory.png"></img></div>
+            <div id="radiant-victory-button" class="won-button bordered top-text"><img src="./images/radiant-victory.png"></img></div>
+            <div id="dire-victory-button" class="won-button bordered top-text"><img src="./images/dire-victory.png"></img></div>
         </div>
 
         <div class ="team-lineups bordered">
@@ -123,7 +122,13 @@ p{
                 <img class="hero-pic" id="radiant4" src="">
                 <img class="hero-pic" id="radiant5" src="">
             </div>
-            <div class="dire-lineup bordered"></div>
+            <div class="dire-lineup bordered">
+                <img class="hero-pic" id="dire1" src="">
+                <img class="hero-pic" id="dire2" src="">
+                <img class="hero-pic" id="dire3" src="">
+                <img class="hero-pic" id="dire4" src="">
+                <img class="hero-pic" id="dire5" src="">
+            </div>
         </div>
 
 
