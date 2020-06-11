@@ -93,27 +93,40 @@ p{
     display:flex;
     flex-direction:row;
     justify-content:center;
-    width:60%;
-    margin:auto;
-    cursor:pointer;
-    
+    margin:auto auto;
+    cursor:pointer; 
+    background-color: transparent;
+    border-radius:20%;
+
+    transition: transform .3s, ease, box-shadow 0.1s ease;
+}
+
+#radiant-image-box:hover{
+    transform:scale(1.03);
+    box-shadow: 0px 0px 31px 6px rgba(45,171,13,0.3);
 }
 
 #dire-image-box{
     display:flex;
     flex-direction:row;
     justify-content:center;
-    width:60%;
-    margin:auto;
-    background-color:rgb(85, 15, 15);
+    margin:auto auto;
     cursor:pointer;
+    border-radius:20%;
+
+    transition: transform .3s, ease, box-shadow 0.1s ease;
 }
 
+#dire-image-box:hover{
+    transform:scale(1.03);
+    box-shadow: 0px 0px 51px 6px rgba(216, 12, 12, 0.3);
+}
 
 .hero-pic{
     width:20%;
     max-width:155px;
-    min-width:40px;
+    min-width:125px;
+    border-radius:
 }
 
 
@@ -139,21 +152,21 @@ p{
 
         <div class="lineup" id="radiant-lineup">
                 <div id="radiant-image-box">
-                    <img class="hero-pic" id="radiant1" src="">
+                    <img class="hero-pic" id="radiant1" src="" style="border-radius:18% 0 0 18%">
                     <img class="hero-pic" id="radiant2" src="">
                     <img class="hero-pic" id="radiant3" src="">
                     <img class="hero-pic" id="radiant4" src="">
-                    <img class="hero-pic" id="radiant5" src="">
+                    <img class="hero-pic" id="radiant5" src="" style="border-radius:0% 18% 18% 0%">
                 </div>
         </div>
         <div id="separator"></div>
         <div class="lineup" id="dire-lineup">
                 <div id="dire-image-box">
-                    <img class="hero-pic" id="dire1" src="">
+                    <img class="hero-pic" id="dire1" src="" style="border-radius:18% 0 0 18%">
                     <img class="hero-pic" id="dire2" src="">
                     <img class="hero-pic" id="dire3" src="">
                     <img class="hero-pic" id="dire4" src="">
-                    <img class="hero-pic" id="dire5" src="">
+                    <img class="hero-pic" id="dire5" src="" style="border-radius:0% 18% 18% 0%">
                 </div>
         </div>
 
@@ -166,3 +179,4 @@ p{
 </body>
 
 </html>
+© 2020 GitHub, Inc.
