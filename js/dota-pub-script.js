@@ -1701,16 +1701,20 @@ for(let i=0; i<10; i++){
     heroArray.push(cleanHeroName(getHeroName(i)));
 }
 
+
+
 // populate the images from hero info in the JSON file
 for(let i=0; i<5;i++){
+    //document.getElementById("radiant"+(1+i)).style.backgroundImage="url('http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[i]+"_lg.png')";
     document.getElementById("radiant"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[i]+"_lg.png";
 }
-for(let i=0; i<5;i++){
-    document.getElementById("dire"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[5+i]+"_lg.png";
-}
+
+//for(let i=0; i<5;i++){
+    //document.getElementById("dire"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[5+i]+"_lg.png";
+//}
 
 // when a victory button is clicked, do something...
-document.getElementById("radiant-image-box").onclick = function(){
+document.getElementById("hero-image-box").onclick = function(){
     if(victor){
         alert("Correct - Radiant Won");
         return;
@@ -1728,4 +1732,3 @@ document.getElementById("dire-image-box").onclick = function(){
 
 // location of hero icons:
 // http://cdn.dota2.com/apps/dota2/images/heroes/[HERONAME]_lg.png
-
