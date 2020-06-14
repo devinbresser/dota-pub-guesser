@@ -1,0 +1,328 @@
+
+body{
+    position:absolute;
+    background-color:black;
+    color:white;
+    min-height:100vh;
+    min-width:100vw;
+    margin: 0 0;
+    overflow-x:hidden;
+}
+
+h1{
+    font-size: 25px;
+}
+
+p{
+
+}
+
+.bordered{
+    border-color:rgba(255,0,0,0.25);
+    border-width:2px;
+    border-style:solid;
+}
+
+.back-button{
+    border-color:rgba(255,0,0,0.25);
+    border-width:2px;
+    border-style:solid;
+    height:50px;
+    width:50px;
+    display:inline-block;
+
+}
+
+/* css for the title overlay block  */
+.title-unit{
+    position:absolute;
+    visibility:visible;
+    width:100vw;
+    height:100vh;
+    background-color:black;
+    z-index:1000;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+#begin-game-button{
+    width:auto;
+    cursor:pointer;
+    border: red 5px solid;
+}
+
+/* css for the main game unit */
+.main-unit{
+    z-index:1;
+    height:100vh;
+    width:100vw;
+    display:flex;
+    flex-direction:column;
+    margin: auto auto;
+}
+
+
+/* @keyframes title-split{
+    0%{
+        opacity:1;
+    }100%{
+        opacity:0;
+    }
+} */
+
+
+
+.top-text{
+    display:inline;
+    text-align:center;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+.won-box{
+    width:775px;
+    height:100px;
+    margin: auto auto;
+    display:flex;
+}
+
+.won-button{
+    width:70px;
+    height:70px;
+    display:inline-block;
+    margin: 20%;
+    margin-top:15px;
+    margin-bottom:15px;
+
+}
+
+.lineup{
+    height:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+#radiant-lineup{
+    flex-direction:column;
+    align-items:center;
+    background: rgba(2, 54, 24, 0.459);
+    background-image: url("./images/radiant-bg.png");
+    background-position:right;
+    background-size:cover;
+    background-repeat: no-repeat;
+    transition: transform 2s, ease, box-shadow 0.1s ease;
+}
+
+#dire-lineup{
+    background: rgba(0, 0, 0, 0.452);
+    background-image: url("./images/dire-bg.png");
+    background-position:left;
+    background-size:cover;
+    background-repeat:no-repeat;
+    transition: transform 2s, ease, box-shadow 0.1s ease;
+}
+
+.radiant-text{
+    font-family:'IBM Plex Sans Condensed';
+    font-size:14px;
+    z-index:999;
+    position:absolute;
+    right:82%;
+    top:-68%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+
+    animation: fade-in cubic-bezier(.99,.02,1,-0.83) 0.75s;
+    animation-iteration-count:1;
+}
+
+.dire-text{
+    font-family:'IBM Plex Sans Condensed';
+    font-size:14px;
+    z-index:999;
+    position:absolute;
+    left:85%;
+    top:78%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+
+    animation: fade-in cubic-bezier(.99,.02,1,-0.83) 0.75s;
+    animation-iteration-count:1;
+}
+
+@keyframes fade-in{
+    0%{
+        opacity:0;
+    }100%{
+        opacity:1;
+    }
+}
+
+#separator{
+    height:0;
+    background-color:black;
+}
+
+.team-box{
+    position:relative;
+    cursor:pointer;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    transition: transform 0.18s ease;
+}
+.team-box:hover{
+    transform:scale(1.04);
+}
+
+.radiant-entering-box{
+    animation: radiant-entry ease-out 0.75s;
+    animation-iteration-count:1;
+}
+
+
+.dire-entering-box{
+    animation: dire-entry ease-out 0.75s;
+    animation-iteration-count:1;
+}
+@keyframes radiant-entry{
+    0%{
+        transform:translateX(-600%);
+    }100%{
+        transform:translateX(0%);
+    }
+}
+
+@keyframes dire-entry{
+    0%{
+        transform:translateX(600%);
+    }100%{
+        transform:translateX(0%);
+    }
+}
+
+.role-text{
+    color:green;
+    font-family:'IBM Plex Sans Condensed';
+    font-size:20px;
+    z-index:999;
+    position:absolute;
+    right:82%;
+    top:-68%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.roles-box{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    border: red 2px solid;
+}
+.roles-box img{
+    max-width:50px;
+}
+
+/* #radiant-lineup:hover{
+    transform:scale(1);
+    box-shadow: inset -7px -4px 55px -8px rgba(6, 100, 9, 0.349);
+} */
+
+/* #dire-lineup:hover{
+    transform:scale(1);
+    box-shadow: inset -7px -4px 55px -8px rgba(121, 5, 5, 0.582);
+} */
+
+.hero-image-box{
+    overflow:hidden;
+    text-align:center;
+    max-width:86px;
+    min-width:86px;
+    margin: 0 3px;
+}
+/* original image aspect ratio: 1.782 */
+.radiant-image-box{
+    transform:skewX(-5.5deg);
+}
+
+.dire-image-box{
+    transform:skewX(5.5deg);
+}
+
+.radiant-image-box img{
+    position:relative;
+    left:0px;
+    width:105%;
+    height:98%;
+    transform:skewX(5.5deg) scaleX(1.04);
+}
+
+
+.dire-image-box img{
+    position:relative;
+    left:0px;
+    width:105%;
+    height:98%;
+    transform:skewX(-5.5deg) scaleX(1.04);
+}
+
+.radiant-hero-pic{
+    position:relative;
+    left:0px;
+    transform:skewX(-5.5deg);
+}
+
+
+.dire-hero-pic{
+    position:relative;
+    left:0px;
+    transform:skewX(-5.5deg);
+}
+
+
+
+
+/* handling for once a response is clicked */
+
+.radiant-donezo-box{
+    animation: radiant-exit ease-in 0.7s;
+    animation-iteration-count:1;
+}
+
+.dire-donezo-box{
+    animation: dire-exit ease-in 0.7s;
+    animation-iteration-count:1;
+}
+
+@keyframes radiant-exit{
+    0%{
+        transform:translateX(0%);
+    }50%{
+        transform:translateX(-350%);
+    }50.0001%{
+        transform:translateX(700%);
+    }100%{
+        transform:translateX(0%);
+    }
+}
+
+@keyframes dire-exit{
+    0%{
+        transform:translateX(0%);
+    }50%{
+        transform:translateX(350%);
+    }50.0001%{
+        transform:translateX(-700%)
+    }100%{
+        transform:translateX(0%)
+    }
+}
