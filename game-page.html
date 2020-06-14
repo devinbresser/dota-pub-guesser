@@ -1,271 +1,8 @@
 <!DOCTYPE html>
 <html>
-<style>
-
-body{
-    background-color:black;
-    color:white;
-    min-height:100vh;
-    margin: 0 0;
-    overflow-x:hidden;
-}
-
-h1{
-    font-size: 25px;
-}
-
-p{
-    
-}
-
-.bordered{
-    border-color:rgba(255,0,0,0.25);
-    border-width:2px;
-    border-style:solid;
-}
-
-.back-button{
-    border-color:rgba(255,0,0,0.25);
-    border-width:2px;
-    border-style:solid;
-    height:50px;
-    width:50px;
-    display:inline-block;
-    
-}
-
-.main-unit{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    margin: auto auto;
-}
-
-.top-text{
-    display:inline;
-    text-align:center;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-
-.won-box{
-    width:775px;
-    height:100px;
-    margin: auto auto;
-    display:flex;
-}
-
-.won-button{
-    width:70px;
-    height:70px;
-    display:inline-block;
-    margin: 20%;
-    margin-top:15px;
-    margin-bottom:15px;
-
-}
-
-.lineup{
-    height:50%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-#radiant-lineup{
-    background: rgba(2, 54, 24, 0.459);
-    background-image: url("./images/radiant-bg.png");
-    background-position:center;
-    background-size:cover;
-    transition: transform 2s, ease, box-shadow 0.1s ease;
-}
-
-#dire-lineup{
-    background: rgba(80, 1, 1, 0.452);
-    background-image: url("./images/dire-bg.jpg");
-    background-position:center;
-    background-size:cover;
-    transition: transform 2s, ease, box-shadow 0.1s ease;
-}
-
-.radiant-text{
-    font-family:'IBM Plex Sans Condensed';
-    font-size:14px;
-    z-index:999;
-    position:absolute;
-    right:85%;
-    top:-51%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-
-    animation: fade-in cubic-bezier(.99,.02,1,-0.83) 0.75s;
-    animation-iteration-count:1;
-}
-
-.dire-text{
-    font-family:'IBM Plex Sans Condensed';
-    font-size:14px;
-    z-index:999;
-    position:absolute;
-    left:89%;
-    top:75%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-
-    animation: fade-in cubic-bezier(.99,.02,1,-0.83) 0.75s;
-    animation-iteration-count:1;
-}
-
-@keyframes fade-in{
-    0%{
-        opacity:0;
-    }
-    100%{
-        opacity:1;
-    }
-}
-
-#separator{
-    height:0;
-    background-color:black;
-}
-
-.team-box{
-    position:relative;
-    cursor:pointer;
-    margin: auto auto;
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    transition: transform 0.18s ease;
-}
-
-#radiant-team-box{
-    animation: radiant-entry ease-out 0.75s;
-    animation-iteration-count:1;
-}
-
-#dire-team-box{
-    animation: dire-entry ease-out 0.75s;
-    animation-iteration-count:1;
-}
-
-@keyframes radiant-entry{
-    0%{
-        transform:translateX(350%);
-    }
-    100%{
-        transform:translateX(0%);
-    }
-}
-
-@keyframes dire-entry{
-    0%{
-        transform:translateX(-350%);
-    }
-    100%{
-        transform:translateX(0%);
-    }
-}
-
-.team-box:hover{
-    transform:scale(1.04);
-}
-
-/* #radiant-lineup:hover{
-    transform:scale(1);
-    box-shadow: inset -7px -4px 55px -8px rgba(6, 100, 9, 0.349);
-} */
-
-/* #dire-lineup:hover{
-    transform:scale(1);
-    box-shadow: inset -7px -4px 55px -8px rgba(121, 5, 5, 0.582);
-} */
-
-.hero-image-box{ 
-    overflow:hidden;
-    max-width:105px;
-    min-width:80px;
-    margin: 0 3px;
-}
-
-.radiant-image-box{
-    transform:skewX(5.5deg);
-}
-
-.dire-image-box{
-    transform:skewX(-5.5deg);
-}
-
-.radiant-image-box img{
-    position:relative;
-    left:0px;
-    width:105%;
-    height:98%;
-    transform:skewX(-5.5deg) scaleX(1.04);
-}
-
-
-.dire-image-box img{
-    position:relative;
-    left:0px;
-    width:105%;
-    height:98%;
-    transform:skewX(5.5deg) scaleX(1.04);
-}
-
-.radiant-hero-pic{
-    position:relative;
-    left:0px;
-    transform:skewX(-5.5deg);
-}
-
-
-.dire-hero-pic{
-    position:relative;
-    left:0px;
-    transform:skewX(-5.5deg);
-}
-
-
-/* handling for once a response is clicked */
-
-#radiant-donezo-box{
-    animation: radiant-exit ease-in 0.75s;
-    animation-iteration-count:1;
-}
-
-#dire-donezo-box{
-    animation: dire-exit ease-in 0.75s;
-    animation-iteration-count:1;
-}
-
-@keyframes radiant-exit{
-    0%{
-        transform:translateX(0%);
-    }
-    100%{
-        transform:translateX(-350%);
-    }
-}
-
-@keyframes dire-exit{
-    0%{
-        transform:translateX(0%);
-    }
-    100%{
-        transform:translateX(350%);
-    }
-}
-
-</style>
-
 <head>
     <title>Cool Game Page</title>
+    <link rel="stylesheet" href="./game-style.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed">
     <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
@@ -274,16 +11,17 @@ p{
 
 <body>
     
-<!-- 
-    <div class="back-button">
-        <a href="./index.html"><img src="./images/back-2-home.png" alt="Back home"></a>
-    </div> -->
+<div id="title-unit" class="title-unit">
+    <img id="begin-game-button" src="./images/shitty-logo-black.png" alt="ENTER GAME">
+</div>
+
 
     <div class="main-unit">
 
 
         <div class="lineup" id="radiant-lineup">
-            <div id="radiant-team-box" class="team-box" style="position:relative; top:10%">  
+
+            <div id="radiant-team-box" class="team-box" style="">  
                 <div class="hero-image-box radiant-image-box">
                     <img class="radiant-hero-pic" id="radiant1" src=""></div>
                     <p class="radiant-text">THE RADIANT</p>
@@ -292,10 +30,19 @@ p{
                 <div class="hero-image-box radiant-image-box"><img class="radiant-hero-pic" id="radiant4" src=""></div>
                 <div class="hero-image-box radiant-image-box"><img class="radiant-hero-pic" id="radiant5" src=""></div>
             </div>
+            <div class="roles-box">
+                <div class=hero-image-box><p>Role1</p></div>
+                <div class=hero-image-box><p>Role2</p></div>
+                <div class=hero-image-box><p>Role3</p></div>
+                <div class=hero-image-box><p>Role4</p></div>
+                <div class=hero-image-box><p>Role5</p></div>
+            </div>
         </div>
+
         <div id="separator"></div>
+        
         <div class="lineup" id="dire-lineup">
-            <div id="dire-team-box" class="team-box" style="position:relative; bottom:10%">
+            <div id="dire-team-box" class="team-box" style="">
                 <div class="hero-image-box dire-image-box"><img class="dire-hero-pic" id="dire1" src=""></div>
                 <div class="hero-image-box dire-image-box"><img class="dire-hero-pic" id="dire2" src=""></div>
                 <div class="hero-image-box dire-image-box"><img class="dire-hero-pic" id="dire3" src=""></div>
@@ -311,6 +58,7 @@ p{
 
 
     </div>
+
 <script src="./js/dota-pub-script.js"></script>
 </body>
 
