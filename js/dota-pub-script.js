@@ -535,7 +535,7 @@ function setup(){
     ranksArray = [];
 
     var randomMatchId = grabRandomParsedMatch(testMatchArray);
-    fetch('https://api.opendota.com/api/matches/4364820397')//+randomMatchId)
+    fetch('https://api.opendota.com/api/matches/4364820397'+randomMatchId)
         .then(res => res.json())
         .then(matchData => {
             initMatch(matchData);
