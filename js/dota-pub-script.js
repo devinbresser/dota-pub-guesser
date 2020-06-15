@@ -485,41 +485,72 @@ var heroList = { // a slightly smaller json file containing hero data
     "count":119
     }
     } 
+
 var heroArray = [];
 var laneArray = [];
-var parsedMatchIdArray = []
+var parsedMatchIdArray = [];
+var ranksArray = [];
+var previousMatchId;
+var gamesRemaining = 101;
 var victor;
-//var matchUrl = 'https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?match_id='+matchId+'&key='+apiKey;
-var radiantTeamBox = document.getElementById("radiant-team-box");
-var direTeamBox = document.getElementById("dire-team-box");
+var testMatchArray = [];
+var radiantLineup = document.getElementById("radiant-lineup");
+var direLineup = document.getElementById("dire-lineup");
+var radiantInfoUnit = document.getElementById("radiant-info-unit");
+var direInfoUnit = document.getElementById("dire-info-unit");
+var beginButton = document.getElementById("begin-game-button");
+var titleUnit = document.getElementById("title-unit");
 //var heroListUrl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key="+apiKey;
 
+var bgNumber = Math.floor(Math.random()*10);
+document.body.style.backgroundImage="url(./images/body-bgs/body-bg"+bgNumber+".png)";
+
 //var desiredMatchId = 5445131421;
+fetch('https://api.opendota.com/api/publicMatches/')
+    .then(res => res.json())
+    .then(matchList =>{
+        testMatchArray=matchList;
+    })
+
+//////////////////////////////////////////////////////////////
+// script for the title sequence
+
+beginButton.onclick = function(){
+    // initial setup
+    titleUnit.classList.add("animated-begin-button-1");
+    radiantLineup.classList.add("radiant-entering-box");
+    direLineup.classList.add("dire-entering-box");
+    setup();       
+    titleUnit.onanimationend = () =>{ 
+        titleUnit.style.visibility="hidden";
+
+    }
+}
 
 // method: initialize the page based on a match
 function setup(){
 
-heroArray = [];
-laneArray = [];
+    heroArray = [];
+    laneArray = [];
+    ranksArray = [];
 
- fetch('https://api.opendota.com/api/parsedMatches/')
-    .then(res => res.json())
-    .then(parsedMatches=>{
-        var randomMatchId = grabRandomParsedMatch(parsedMatches);
-        fetch('https://api.opendota.com/api/matches/'+randomMatchId)
+    var randomMatchId = grabRandomParsedMatch(testMatchArray);
+    fetch('https://api.opendota.com/api/matches/4364820397')//+randomMatchId)
         .then(res => res.json())
         .then(matchData => {
             initMatch(matchData);
-        })
-    })
-    radiantTeamBox.onanimationend = () =>{
-        radiantTeamBox.classList.remove("radiant-donezo-box");
-        direTeamBox.classList.remove("dire-donezo-box");
-    }
+            printSomething(matchData);
+            })
+        radiantLineup.onanimationend = () =>{
+            radiantLineup.classList.remove("radiant-donezo-box");
+            direLineup.classList.remove("dire-donezo-box");
+        }
 }
+
 // method: grab a random item from opendota's fetched match list 
 function grabRandomParsedMatch(data){
-    return data[Math.floor(Math.random()*101)].match_id;
+    previousMatchId = data[Math.floor(Math.random()*gamesRemaining)].match_id
+    return previousMatchId;
 }
 
 // function populateParsedArray(data){
@@ -532,7 +563,7 @@ function grabRandomParsedMatch(data){
 // }
 
 function printSomething(data){
-    console.log(data.players[0].lh_t)
+    console.log("https://opendota.com/matches/" + data.match_id, " region: " + data.region);
 }
 
 // sorts lanes into offlane, mid and safelane
@@ -557,9 +588,7 @@ function sortLanes(data){
             laneArray.push(getCleanHeroName(data.players[i].hero_id)+": safe")
         }
     }
-    for(let i=0; i<10; i++){
-        console.log(laneArray[i])
-    }
+
 }
 
 // approximately sorts into core vs support
@@ -567,9 +596,6 @@ function coreSupportSort(data){
     //todo
 }
 
-// function randomMatchId(){
-//     console.log( Math.floor(Math.random()*500));
-// }
 
 // method: get clean hero name from ID
 function getCleanHeroName(heroId){
@@ -580,67 +606,84 @@ function getCleanHeroName(heroId){
     }
 }
 
+// method: finds the mode rank tier from the provided data
+function modeRank(data){
+    console.log(Math.mode(ranksArray.substring(0,1)));
+    
+}
+
 // method: fills the hero array with the id's of heroes from the json
 // converted to clean names for image retrieval
+// also fills the ranks array with rank information
 function fillHeroArray(data){
     for(let i=0; i<10; i++){
         heroArray.push(getCleanHeroName(data.players[i].hero_id));
+        ranksArray.push(data.players[i].rank_tier);
     }
+}
+
+// method: returns true when the game is ranked, and false otherwise (for consistent rank data)
+function isRanked(data){
+    console.log(data.game_mode==22);
+    return data.game_mode==22;
 }
 
 // method: initializes the page for a new round
 function initMatch(data){
     victor = data.radiant_win;
     fillHeroArray(data);
+    sortLanes(data);
+
+    // temporarily scrapped: individual rank data
+    // if(!isRanked(data)){
+    //     document.getElementById("radiant-ranks-box").style.display="none";
+    //     document.getElementById("dire-ranks-box").style.display="none";
+    // }
+    
     // populate the images from hero info in the JSON file
     for(let i=0; i<5;i++){
         document.getElementById("radiant"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[i]+"_lg.png";
+        document.getElementById("radiant-rank"+(1+i)).src="./images/ranks/"+ranksArray[i]+".png";
     }
     for(let i=0; i<5;i++){
         document.getElementById("dire"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[5+i]+"_lg.png";
+        document.getElementById("dire-rank"+(1+i)).src="./images/ranks/"+ranksArray[5+i]+".png";
     }
 }
 
 
 
 // when a victory button is clicked, do something...
-document.getElementById("radiant-team-box").onclick = function(){
+document.getElementById("radiant-lineup").onclick = function(){
     if(!victor){
         alert("Incorrect");
         return;
     }
     if(victor){
-        radiantTeamBox.classList.remove("radiant-entering-box");
-        direTeamBox.classList.remove("dire-entering-box");
-        radiantTeamBox.classList.add("radiant-donezo-box");
-        direTeamBox.classList.add("dire-donezo-box");
+        radiantLineup.classList.remove("radiant-entering-box");
+        direLineup.classList.remove("dire-entering-box");
+        radiantLineup.classList.add("radiant-donezo-box");
+        direLineup.classList.add("dire-donezo-box");
         setup();
     }
 }
 
-document.getElementById("dire-team-box").onclick = function(){
+document.getElementById("dire-lineup").onclick = function(){
     if(victor){
         alert("Incorrect");
         return;
     }
 
     if(victor==false){ 
-        radiantTeamBox.classList.remove("radiant-entering-box");
-        direTeamBox.classList.remove("dire-entering-box");
-        radiantTeamBox.classList.add("radiant-donezo-box");
-        direTeamBox.classList.add("dire-donezo-box");
+        radiantLineup.classList.remove("radiant-entering-box");
+        direLineup.classList.remove("dire-entering-box");
+        radiantLineup.classList.add("radiant-donezo-box");
+        direLineup.classList.add("dire-donezo-box");
         setup(); 
     }
 }
 
-document.getElementById("begin-game-button").onclick = function(){
-    // initial setup
-    radiantTeamBox.classList.add("radiant-entering-box");
-    direTeamBox.classList.add("dire-entering-box");
-    setup();
 
-    document.getElementById("title-unit").style.visibility="hidden";
-}
 
 
 
