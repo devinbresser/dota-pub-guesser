@@ -2,11 +2,18 @@
 body{
     position:absolute;
     background-color:black;
+    background-image:url("./images/body-bgs/body-bg1.png");
+    background-position-x:bottom;
+    background-size:cover;
+    background-repeat: repeat;
     color:white;
     min-height:100vh;
     min-width:100vw;
     margin: 0 0;
     overflow-x:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 h1{
@@ -48,114 +55,112 @@ p{
 }
 
 #begin-game-button{
-    width:auto;
+    width:225px;
     cursor:pointer;
-    border: red 5px solid;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#begin-game-button:hover{
+    transform:scale(1.25);
+}
+
+.animated-begin-button-1{
+    animation: shrink-1st-half 0.7s cubic-bezier(.6,.15,.91,.65);
+}
+
+@keyframes shrink-1st-half{
+    0%{
+        transform:scale(1);
+    }100%{
+        transform:scaleY(0.01);
+    }
+
+}
+@keyframes shrink-2nd-half{
+    0%{
+        transform:scale(1);
+    }100%{
+        transform:scaleY(0.5);
+    }
+
 }
 
 /* css for the main game unit */
 .main-unit{
     z-index:1;
-    height:100vh;
-    width:100vw;
+    height:30vh;
+    width:675px;
     display:flex;
     flex-direction:column;
-    margin: auto auto;
+    margin-left:auto;
+    margin-right:auto;
 }
 
-
-/* @keyframes title-split{
-    0%{
-        opacity:1;
-    }100%{
-        opacity:0;
-    }
-} */
-
-
-
-.top-text{
-    display:inline;
-    text-align:center;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-
-.won-box{
-    width:775px;
-    height:100px;
-    margin: auto auto;
+.info-bar{
     display:flex;
+    flex-direction:row;
+    justify-content:flex-start;
+    width:675px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:2px;
 }
 
-.won-button{
-    width:70px;
-    height:70px;
-    display:inline-block;
-    margin: 20%;
-    margin-top:15px;
-    margin-bottom:15px;
-
+.info-bar-text{
+    font-family:'IBM Plex Sans Condensed';
+    font-size:10px;
+    text-align:left;
+    margin-bottom:2px;
+    margin-left:10px;
 }
+
 
 .lineup{
-    height:50%;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
+    z-index:2;
+    height:60%;
+    transition: transform 0.5s ease;
+}
+
+.lineup:hover{
+    transform:scale(1.04);
+    cursor:pointer;
 }
 
 #radiant-lineup{
-    flex-direction:column;
-    align-items:center;
-    background: rgba(2, 54, 24, 0.459);
-    background-image: url("./images/radiant-bg.png");
+
+    background: rgba(2, 54, 24, 0.363);
+    /* background-image: url("./images/radiant-bg.png"); */
     background-position:right;
-    background-size:cover;
     background-repeat: no-repeat;
-    transition: transform 2s, ease, box-shadow 0.1s ease;
+    transition: transform 0.4s ease;
 }
 
 #dire-lineup{
-    background: rgba(0, 0, 0, 0.452);
-    background-image: url("./images/dire-bg.png");
+    background: rgba(70, 2, 2, 0.37);
+    /* background-image: url("./images/dire-bg.png"); */
     background-position:left;
-    background-size:cover;
     background-repeat:no-repeat;
-    transition: transform 2s, ease, box-shadow 0.1s ease;
+    transition: transform 0.4s ease;
 }
 
 .radiant-text{
     font-family:'IBM Plex Sans Condensed';
     font-size:14px;
-    z-index:999;
-    position:absolute;
-    right:82%;
-    top:-68%;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
-
-    animation: fade-in cubic-bezier(.99,.02,1,-0.83) 0.75s;
-    animation-iteration-count:1;
+    margin-top:0px;
 }
 
 .dire-text{
     font-family:'IBM Plex Sans Condensed';
     font-size:14px;
-    z-index:999;
-    position:absolute;
-    left:85%;
-    top:78%;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
-
-    animation: fade-in cubic-bezier(.99,.02,1,-0.83) 0.75s;
-    animation-iteration-count:1;
+    margin-bottom:0px;
 }
 
 @keyframes fade-in{
@@ -171,17 +176,15 @@ p{
     background-color:black;
 }
 
+
 .team-box{
     position:relative;
     cursor:pointer;
     display:flex;
     flex-direction:row;
     justify-content:center;
-    transition: transform 0.18s ease;
 }
-.team-box:hover{
-    transform:scale(1.04);
-}
+
 
 .radiant-entering-box{
     animation: radiant-entry ease-out 0.75s;
@@ -226,7 +229,6 @@ p{
     display:flex;
     flex-direction:row;
     justify-content:center;
-    border: red 2px solid;
 }
 .roles-box img{
     max-width:50px;
@@ -242,12 +244,33 @@ p{
     box-shadow: inset -7px -4px 55px -8px rgba(121, 5, 5, 0.582);
 } */
 
+/* temporarily scrapped: individual ranks */
+#radiant-ranks-box{
+    display:none;
+}
+#dire-ranks-box{
+    display:none;
+}
+
+.rank-image-box{
+    overflow:hidden;
+    text-align:center;
+    margin: 0 34px;
+}
+.rank-image-box img{
+    background-color: transparent;
+    transform:scale(0.9);
+    border-radius:100%;
+    border: transparent 0px solid;
+}
+
+
 .hero-image-box{
     overflow:hidden;
     text-align:center;
-    max-width:86px;
-    min-width:86px;
-    margin: 0 3px;
+    max-width:95px;
+    min-width:95px;
+    margin: 0 10px;
 }
 /* original image aspect ratio: 1.782 */
 .radiant-image-box{

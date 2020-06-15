@@ -1,0 +1,7 @@
+2:us east
+5:singapore
+7:australia
+8:stockholm
+9:
+15:peru
+16:india
