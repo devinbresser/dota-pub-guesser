@@ -486,12 +486,85 @@ var heroList = { // a slightly smaller json file containing hero data
     }
     } 
 
+var regionList = { 
+    "regions":[
+    {
+    "region":"US WEST",
+    "id":1
+    },
+    {
+    "region":"US EAST",
+    "id":2
+    },
+    {
+    "region":"EU WEST",
+    "id":3
+    },
+    {
+    "region":"SE ASIA",
+    "id":5
+    },
+    {
+    "region":"DUBAI",
+    "id":6
+    },
+    {
+    "region":"AUSTRALIA",
+    "id":7
+    },
+    {
+    "region":"EU WEST",
+    "id":8
+    },
+    {
+    "region":"EU EAST",
+    "id":9
+    },
+    {
+    "region":"SOUTH AFRICA",
+    "id":11
+    },
+    {
+    "region":"SOUTH AMERICA",
+    "id":14
+    },
+    {
+    "region":"PERU",
+    "id":15
+    },
+    {
+    "region":"INDIA",
+    "id":16
+    },
+    {
+    "region":"CHINA",
+    "id":17
+    },
+    {
+    "region":"CHINA",
+    "id":18
+    },
+    {
+    "region":"JAPAN",
+    "id":19
+    },
+    {
+    "region":"CHINA",
+    "id":20
+    },
+    {
+    "region":"CHINA",
+    "id":25
+    },
+    ]
+}
+
 var heroArray = [];
 var laneArray = [];
 var parsedMatchIdArray = [];
 var ranksArray = [];
 var previousMatchId;
-var gamesRemaining = 101;
+var gamesRemaining = 100;
 var victor;
 var testMatchArray = [];
 var radiantLineup = document.getElementById("radiant-lineup");
@@ -506,7 +579,7 @@ var bgNumber = Math.floor(Math.random()*10);
 document.body.style.backgroundImage="url(./images/body-bgs/body-bg"+bgNumber+".png)";
 
 //var desiredMatchId = 5445131421;
-fetch('https://api.opendota.com/api/publicMatches/')
+fetch('https://api.opendota.com/api/parsedMatches/')
     .then(res => res.json())
     .then(matchList =>{
         testMatchArray=matchList;
@@ -522,7 +595,7 @@ beginButton.onclick = function(){
     direLineup.classList.add("dire-entering-box");
     setup();       
     titleUnit.onanimationend = () =>{ 
-        titleUnit.style.visibility="hidden";
+    titleUnit.style.visibility="hidden";
 
     }
 }
@@ -533,7 +606,6 @@ function setup(){
     heroArray = [];
     laneArray = [];
     ranksArray = [];
-
     var randomMatchId = grabRandomParsedMatch(testMatchArray);
     fetch('https://api.opendota.com/api/matches/'+randomMatchId)
         .then(res => res.json())
@@ -564,6 +636,7 @@ function grabRandomParsedMatch(data){
 
 function printSomething(data){
     console.log("https://opendota.com/matches/" + data.match_id, " region: " + data.region);
+    console.log(String(Math.floor(data.duration/60))+String(data.duration % 60));
 }
 
 // sorts lanes into offlane, mid and safelane
@@ -612,6 +685,22 @@ function modeRank(data){
     
 }
 
+// method: retrieves the region name from the dictionary, or "UNKNOWN" if not found
+function getRegion(regionId){
+    for(let i=0; i<regionList.regions.length;i++){
+        if(regionId == regionList.regions[i].id){
+            return regionList.regions[i].region;
+        }
+    }
+return "UNKNOWN";
+}
+
+// method: retrieves the match's duration in minutes:seconds format
+function getDuration(duration){String(Math.floor(duration/60))+":"+String(duration % 60);
+    if(duration % 60 <10) return String(Math.floor(duration/60))+":0"+String(duration % 60);
+    return String(Math.floor(duration/60))+":"+String(duration % 60);
+}
+
 // method: fills the hero array with the id's of heroes from the json
 // converted to clean names for image retrieval
 // also fills the ranks array with rank information
@@ -628,11 +717,14 @@ function isRanked(data){
     return data.game_mode==22;
 }
 
-// method: initializes the page for a new round
+// method: initializes the page for a new round by processing match data
 function initMatch(data){
     victor = data.radiant_win;
     fillHeroArray(data);
     sortLanes(data);
+    
+    document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region);
+    document.getElementById("duration-text").innerHTML = "DURATION: "+getDuration(data.duration);
 
     // temporarily scrapped: individual rank data
     // if(!isRanked(data)){
