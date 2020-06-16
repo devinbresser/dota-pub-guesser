@@ -573,6 +573,7 @@ var radiantLineup = document.getElementById("radiant-lineup");
 var direLineup = document.getElementById("dire-lineup");
 var beginButton = document.getElementById("begin-game-button");
 var titleUnit = document.getElementById("title-unit");
+var infoBar = document.getElementById("info-bar");
 
 //var heroListUrl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key="+apiKey;
 
@@ -623,6 +624,7 @@ function setup(){
         radiantLineup.onanimationend = () =>{
             radiantLineup.classList.remove("radiant-donezo-box");
             direLineup.classList.remove("dire-donezo-box");
+            infoBar.classList.remove("fading-out");
         }
 }
 
@@ -759,6 +761,7 @@ document.getElementById("radiant-lineup").onclick = function(){
         direLineup.classList.remove("dire-entering-box");
         radiantLineup.classList.add("radiant-donezo-box");
         direLineup.classList.add("dire-donezo-box");
+        infoBar.classList.add("fading-out");
         setup();
     }
 }
@@ -774,6 +777,7 @@ document.getElementById("dire-lineup").onclick = function(){
         direLineup.classList.remove("dire-entering-box");
         radiantLineup.classList.add("radiant-donezo-box");
         direLineup.classList.add("dire-donezo-box");
+        infoBar.classList.add("fading-out");
         setup(); 
     }
 }
