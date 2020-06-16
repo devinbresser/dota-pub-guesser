@@ -1,6 +1,7 @@
 @media only screen and (max-width:950px){
     .main-unit{
        width:100vw;
+       margin-bottom:27%;
     }
     .info-bar{
         width:100vw;
