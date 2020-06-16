@@ -1,5 +1,4 @@
 // initialization
-const apiKey = "5BA88786D92A82430B13AB8DF11AABC5";
 const heroList = { // a slightly smaller json file containing hero data
     "result":{
     "heroes":[
