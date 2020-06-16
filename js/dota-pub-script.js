@@ -1,6 +1,6 @@
 // initialization
 const apiKey = "5BA88786D92A82430B13AB8DF11AABC5";
-var heroList = { // a slightly smaller json file containing hero data
+const heroList = { // a slightly smaller json file containing hero data
     "result":{
     "heroes":[
     {
@@ -486,7 +486,7 @@ var heroList = { // a slightly smaller json file containing hero data
     }
     } 
 
-var regionList = { 
+const regionList = { 
     "regions":[
     {
     "region":"US WEST",
@@ -558,33 +558,38 @@ var regionList = {
     },
     ]
 }
+const goodLobbyTypes = [1,2,3,4,5,16,22];
+const endingMatchId = 5447321333;
+const ranks = ['HERALD','GUARDIAN','CRUSADER','ARCHON','LEGEND','ANCIENT','DIVINE','IMMORTAL']
 
 var heroArray = [];
 var laneArray = [];
-var parsedMatchIdArray = [];
 var ranksArray = [];
+var beforeArray = [];
 var previousMatchId;
-var gamesRemaining = 100;
 var victor;
-var testMatchArray = [];
+var index = 0;
+var matchArray = [];
 var radiantLineup = document.getElementById("radiant-lineup");
 var direLineup = document.getElementById("dire-lineup");
-var radiantInfoUnit = document.getElementById("radiant-info-unit");
-var direInfoUnit = document.getElementById("dire-info-unit");
 var beginButton = document.getElementById("begin-game-button");
 var titleUnit = document.getElementById("title-unit");
+
 //var heroListUrl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key="+apiKey;
 
 var bgNumber = Math.floor(Math.random()*10);
 document.body.style.backgroundImage="url(./images/body-bgs/body-bg"+bgNumber+".png)";
 
-//var desiredMatchId = 5445131421;
-fetch('https://api.opendota.com/api/parsedMatches/')
+function createMatchArray(){
+fetch('https://api.opendota.com/api/publicMatches/?less_than_match_id='+(endingMatchId-Math.floor(Math.random()*50000)))
     .then(res => res.json())
     .then(matchList =>{
-        testMatchArray=matchList;
+        matchArray=matchList;
+        filterBadMatches(matchArray);
     })
+}
 
+createMatchArray();
 //////////////////////////////////////////////////////////////
 // script for the title sequence
 
@@ -602,16 +607,19 @@ beginButton.onclick = function(){
 
 // method: initialize the page based on a match
 function setup(){
-
     heroArray = [];
     laneArray = [];
     ranksArray = [];
-    var randomMatchId = grabRandomParsedMatch(testMatchArray);
-    fetch('https://api.opendota.com/api/matches/'+randomMatchId)
+    if(index==matchArray.length-1){
+        index = 0;
+        createMatchArray();
+    }
+    var nextMatchId = grabNextMatch(matchArray);
+    fetch('https://api.opendota.com/api/matches/'+nextMatchId)
         .then(res => res.json())
         .then(matchData => {
             initMatch(matchData);
-            printSomething(matchData);
+            console.log("https://opendota.com/matches/"+matchData.match_id)
             })
         radiantLineup.onanimationend = () =>{
             radiantLineup.classList.remove("radiant-donezo-box");
@@ -620,25 +628,25 @@ function setup(){
 }
 
 // method: grab a random item from opendota's fetched match list 
-function grabRandomParsedMatch(data){
-    previousMatchId = data[Math.floor(Math.random()*gamesRemaining)].match_id
+function grabNextMatch(matchArray){
+    previousMatchId = matchArray[index].match_id;
+    index++;
     return previousMatchId;
 }
 
-// function populateParsedArray(data){
-//     for(let i=0; i<100; i++){
-//         parsedMatchIdArray.push(data[i].match_id)
-//     }
-//     for(let i=0; i<10; i++){
-//         console.log(parsedMatchIdArray[i])
-//     }
-// }
 
-function printSomething(data){
-    console.log("https://opendota.com/matches/" + data.match_id, " region: " + data.region);
-    console.log(String(Math.floor(data.duration/60))+String(data.duration % 60));
+// method: filters matches under 21 minutes in duration and in unusual modes
+function filterBadMatches(matchArray){
+    // scan all matches for bad ones and toss them
+    for(let i=0;i<matchArray.length;i++){
+        if(matchArray[i].duration<1200 || !goodLobbyTypes.includes(matchArray[i].game_mode)){
+            console.log("Removed bad match: https://opendota.com/matches/"+matchArray[i].match_id);
+            matchArray.splice(i,1);
+        }
+    }
 }
 
+/*
 // sorts lanes into offlane, mid and safelane
 function sortLanes(data){
     for(let i=0; i<10; i++){
@@ -663,12 +671,14 @@ function sortLanes(data){
     }
 
 }
+*/
 
+/*
 // approximately sorts into core vs support
 function coreSupportSort(data){
     //todo
 }
-
+*/
 
 // method: get clean hero name from ID
 function getCleanHeroName(heroId){
@@ -677,12 +687,6 @@ function getCleanHeroName(heroId){
             return heroList.result.heroes[i].name.replace('npc_dota_hero_','');;
         }
     }
-}
-
-// method: finds the mode rank tier from the provided data
-function modeRank(data){
-    console.log(Math.mode(ranksArray.substring(0,1)));
-    
 }
 
 // method: retrieves the region name from the dictionary, or "UNKNOWN" if not found
@@ -696,7 +700,7 @@ return "UNKNOWN";
 }
 
 // method: retrieves the match's duration in minutes:seconds format
-function getDuration(duration){String(Math.floor(duration/60))+":"+String(duration % 60);
+function getDuration(duration){
     if(duration % 60 <10) return String(Math.floor(duration/60))+":0"+String(duration % 60);
     return String(Math.floor(duration/60))+":"+String(duration % 60);
 }
@@ -721,11 +725,11 @@ function isRanked(data){
 function initMatch(data){
     victor = data.radiant_win;
     fillHeroArray(data);
-    sortLanes(data);
+    //sortLanes(data);
     
     document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region);
     document.getElementById("duration-text").innerHTML = "DURATION: "+getDuration(data.duration);
-
+    document.getElementById("rank-text").innerHTML = "AVERAGE RANK: "+ranks[-1+(Math.round(matchArray[index-1].avg_rank_tier/10))];
     // temporarily scrapped: individual rank data
     // if(!isRanked(data)){
     //     document.getElementById("radiant-ranks-box").style.display="none";
