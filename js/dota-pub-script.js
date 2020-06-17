@@ -590,6 +590,7 @@ fetch('https://api.opendota.com/api/publicMatches/?less_than_match_id='+(endingM
 }
 
 createMatchArray();
+
 //////////////////////////////////////////////////////////////
 // script for the title sequence
 
@@ -620,7 +621,12 @@ function setup(){
         .then(matchData => {
             initMatch(matchData);
             console.log("https://opendota.com/matches/"+matchData.match_id)
-            })
+            if(index>=2){
+                previousMatchId = "https://opendota.com/matches/"+matchArray[index-2].match_id;
+                document.getElementById("prev-match-text").innerHTML = "PREVIOUS MATCH";
+                document.getElementById("prev-match-text").href = previousMatchId;
+            }
+        })
         radiantLineup.onanimationend = () =>{
             radiantLineup.classList.remove("radiant-donezo-box");
             direLineup.classList.remove("dire-donezo-box");
@@ -630,9 +636,9 @@ function setup(){
 
 // method: grab a random item from opendota's fetched match list 
 function grabNextMatch(matchArray){
-    previousMatchId = matchArray[index].match_id;
+    var matchToReturn = matchArray[index].match_id;
     index++;
-    return previousMatchId;
+    return matchToReturn;
 }
 
 
