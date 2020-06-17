@@ -101,17 +101,16 @@ h1{
 
 .info-bar-text{
     color:white;
-    font-family:'IBM Plex Sans Condensed';
-    font-size:10px;
+    font-family: "Open Sans Condensed", sans-serif;
+    font-size:14px;
     text-align:left;
     margin-bottom:2px;
     margin-left:10px;
 }
 
 #prev-match-text{
-    position:absolute;
-    top:58%;
-    right:10.5%;
+    position: absolute;
+    top: 537px;
 }
 
 
@@ -148,16 +147,16 @@ h1{
 }
 
 .radiant-text{
-    font-family:'IBM Plex Sans Condensed';
-    font-size:14px;
+    font-family:'Open Sans Condensed',sans-serif;
+    font-size:17px;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-top:0px;
 }
 
 .dire-text{
-    font-family:'IBM Plex Sans Condensed';
-    font-size:14px;
+    font-family:'Open Sans Condensed',sans-serif;
+    font-size:17px;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-bottom:0px;
