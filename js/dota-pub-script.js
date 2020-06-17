@@ -1,4 +1,4 @@
-// initialization
+// first-time initialization (any way to clean this up??)
 const heroList = { // a slightly smaller json file containing hero data
     "result":{
     "heroes":[
@@ -560,7 +560,6 @@ const regionList = {
 const goodLobbyTypes = [1,2,3,4,5,16,22];
 const endingMatchId = 5447321333;
 const ranks = ['HERALD','GUARDIAN','CRUSADER','ARCHON','LEGEND','ANCIENT','DIVINE','IMMORTAL']
-
 var heroArray = [];
 var laneArray = [];
 var ranksArray = [];
@@ -568,18 +567,26 @@ var beforeArray = [];
 var previousMatchId;
 var victor;
 var index = 0;
+var streak = 0;
 var matchArray = [];
 var radiantLineup = document.getElementById("radiant-lineup");
 var direLineup = document.getElementById("dire-lineup");
 var beginButton = document.getElementById("begin-game-button");
 var titleUnit = document.getElementById("title-unit");
 var infoBar = document.getElementById("info-bar");
+var aboutGame = document.getElementById("about-game");
 
 //var heroListUrl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key="+apiKey;
 
 var bgNumber = Math.floor(Math.random()*10);
 document.body.style.backgroundImage="url(./images/body-bgs/body-bg"+bgNumber+".png)";
+//document.getElementById("title-unit").style.backgroundImage="url(./images/body-bgs/body-bg"+bgNumber+".png)";
 
+
+/////////////////////////////////////////////////////////////
+// helper methods:
+
+// createMatchArray: retrieves a cleaned-up public match array from the opendota API
 function createMatchArray(){
 fetch('https://api.opendota.com/api/publicMatches/?less_than_match_id='+(endingMatchId-Math.floor(Math.random()*50000)))
     .then(res => res.json())
@@ -588,31 +595,14 @@ fetch('https://api.opendota.com/api/publicMatches/?less_than_match_id='+(endingM
         filterBadMatches(matchArray);
     })
 }
-
-createMatchArray();
-
-//////////////////////////////////////////////////////////////
-// script for the title sequence
-
-beginButton.onclick = function(){
-    // initial setup
-    titleUnit.classList.add("animated-begin-button-1");
-    radiantLineup.classList.add("radiant-entering-box");
-    direLineup.classList.add("dire-entering-box");
-    setup();       
-    titleUnit.onanimationend = () =>{ 
-    titleUnit.style.visibility="hidden";
-
-    }
-}
-
-// method: initialize the page based on a match
+// setup: initialize the page based on a match
 function setup(){
     heroArray = [];
     laneArray = [];
     ranksArray = [];
+    // processing for a 99+ correct streak (if you have such a streak, you've probably read this...)
     if(index==matchArray.length-1){
-        index = 0;
+        index=0;
         createMatchArray();
     }
     var nextMatchId = grabNextMatch(matchArray);
@@ -634,7 +624,7 @@ function setup(){
         }
 }
 
-// method: grab a random item from opendota's fetched match list 
+// grabNextMatch: grab a random item from opendota's fetched match list 
 function grabNextMatch(matchArray){
     var matchToReturn = matchArray[index].match_id;
     index++;
@@ -642,7 +632,7 @@ function grabNextMatch(matchArray){
 }
 
 
-// method: filters matches under 21 minutes in duration and in unusual modes
+// filterBadMatches: filters matches under 21 minutes in duration and in unusual modes
 function filterBadMatches(matchArray){
     // scan all matches for bad ones and toss them
     for(let i=0;i<matchArray.length;i++){
@@ -654,7 +644,7 @@ function filterBadMatches(matchArray){
 }
 
 /*
-// sorts lanes into offlane, mid and safelane
+// sortLanes: sorts lanes into offlane, mid and safelane
 function sortLanes(data){
     for(let i=0; i<10; i++){
         // mid condition
@@ -681,13 +671,13 @@ function sortLanes(data){
 */
 
 /*
-// approximately sorts into core vs support
+// coreSupportSort: approximately sorts into core vs support
 function coreSupportSort(data){
     //todo
 }
 */
 
-// method: get clean hero name from ID
+// getCleanHeroName: get clean hero name from ID
 function getCleanHeroName(heroId){
     for(let i=0; i<120;i++){
         if(heroId == heroList.result.heroes[i].id){
@@ -696,7 +686,7 @@ function getCleanHeroName(heroId){
     }
 }
 
-// method: retrieves the region name from the dictionary, or "UNKNOWN" if not found
+// getRegion: retrieves the region name from the dictionary, or "UNKNOWN" if not found
 function getRegion(regionId){
     for(let i=0; i<regionList.regions.length;i++){
         if(regionId == regionList.regions[i].id){
@@ -706,13 +696,13 @@ function getRegion(regionId){
 return "UNKNOWN";
 }
 
-// method: retrieves the match's duration in minutes:seconds format
+// getDuration: retrieves the match's duration in minutes:seconds format
 function getDuration(duration){
     if(duration % 60 <10) return String(Math.floor(duration/60))+":0"+String(duration % 60);
     return String(Math.floor(duration/60))+":"+String(duration % 60);
 }
 
-// method: fills the hero array with the id's of heroes from the json
+// fillHeroArray: fills the hero array with the id's of heroes from the json
 // converted to clean names for image retrieval
 // also fills the ranks array with rank information
 function fillHeroArray(data){
@@ -722,13 +712,13 @@ function fillHeroArray(data){
     }
 }
 
-// method: returns true when the game is ranked, and false otherwise (for consistent rank data)
+// isRanked: returns true when the game is ranked, and false otherwise (for consistent rank data)
 function isRanked(data){
     console.log(data.game_mode==22);
     return data.game_mode==22;
 }
 
-// method: initializes the page for a new round by processing match data
+// initMatch: initializes the page for a new round by processing match data
 function initMatch(data){
     victor = data.radiant_win;
     fillHeroArray(data);
@@ -737,6 +727,7 @@ function initMatch(data){
     document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region);
     document.getElementById("duration-text").innerHTML = "DURATION: "+getDuration(data.duration);
     document.getElementById("rank-text").innerHTML = "AVERAGE RANK: "+ranks[-1+(Math.round(matchArray[index-1].avg_rank_tier/10))];
+    document.getElementById("streak-text").innerHTML = "STREAK: "+streak;
     // temporarily scrapped: individual rank data
     // if(!isRanked(data)){
     //     document.getElementById("radiant-ranks-box").style.display="none";
@@ -754,15 +745,48 @@ function initMatch(data){
     }
 }
 
+// backToMenu: returns back to the begin page with some additional information
+function backToMenu(){   
+    //index++;
+    streak=0;
+    titleUnit.classList.remove("animated-begin-button-1");
+    titleUnit.style.visibility="visible"; 
+    radiantLineup.classList.remove("radiant-entering-box");
+    direLineup.classList.remove("dire-entering-box");
+    //aboutGame.style.visibility="visible";
+}
+
+
+//////////////////////////////////////////////////////////////
+// script for the title sequence
+
+beginButton.onclick = function(){
+    // initial setup
+    document.getElementById("prev-match-text").innerHTML = "";
+    titleUnit.classList.add("animated-begin-button-1");
+    radiantLineup.classList.add("radiant-entering-box");
+    direLineup.classList.add("dire-entering-box");
+    setup();       
+    titleUnit.onanimationend = () =>{ 
+    titleUnit.style.visibility="hidden";
+
+    }
+}
+
+//////////////////////////////////////////////////////////////
+// script for the main game functionality
+
+createMatchArray();
 
 
 // when a victory button is clicked, do something...
 document.getElementById("radiant-lineup").onclick = function(){
     if(!victor){
-        alert("Incorrect");
-        return;
+        backToMenu();
+
     }
     if(victor){
+        streak++;
         radiantLineup.classList.remove("radiant-entering-box");
         direLineup.classList.remove("dire-entering-box");
         radiantLineup.classList.add("radiant-donezo-box");
@@ -774,11 +798,11 @@ document.getElementById("radiant-lineup").onclick = function(){
 
 document.getElementById("dire-lineup").onclick = function(){
     if(victor){
-        alert("Incorrect");
-        return;
+        backToMenu();
     }
 
     if(victor==false){ 
+        streak++;
         radiantLineup.classList.remove("radiant-entering-box");
         direLineup.classList.remove("dire-entering-box");
         radiantLineup.classList.add("radiant-donezo-box");
