@@ -1,4 +1,4 @@
-@media only screen and (max-width:950px){
+@media screen and (max-width:860px){
 
     #begin-game-button{
         margin-bottom:45%;
@@ -6,13 +6,9 @@
 
     .main-unit{
        width:100vw;
-       margin-bottom:60%;
     }
     #info-bar{
         width:100vw;
-    }
-    .lineup:hover{
-        transform:scale(1.0);
     }
     .team-box{
         width:100vw;
