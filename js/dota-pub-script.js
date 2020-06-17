@@ -724,7 +724,7 @@ function initMatch(data){
     fillHeroArray(data);
     //sortLanes(data);
     
-    document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region);
+    document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region)+" RADIANTWIN: "+data.radiant_win;
     document.getElementById("duration-text").innerHTML = "DURATION: "+getDuration(data.duration);
     document.getElementById("rank-text").innerHTML = "AVERAGE RANK: "+ranks[-1+(Math.round(matchArray[index-1].avg_rank_tier/10))];
     document.getElementById("streak-text").innerHTML = "STREAK: "+streak;
