@@ -573,7 +573,7 @@ var radiantLineup = document.getElementById("radiant-lineup");
 var direLineup = document.getElementById("dire-lineup");
 var beginButton = document.getElementById("begin-game-button");
 var titleUnit = document.getElementById("title-unit");
-var infoBar = document.getElementById("info-bar");
+var infoBar = document.getElementById("info-bar-top");
 var aboutGame = document.getElementById("about-game");
 
 //var heroListUrl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key="+apiKey;
