@@ -614,7 +614,7 @@ function setup(){
             if(index>=2){
                 previousMatchId = "https://opendota.com/matches/"+matchArray[index-2].match_id;
                 document.getElementById("prev-match-text").innerHTML = "PREVIOUS MATCH";
-                document.getElementById("prev-match-text").href = previousMatchId;
+                document.getElementById("prev-match-text").href = "https://dotabuff.com/matches/"+matchData.match_id;
             }
         })
         radiantLineup.onanimationend = () =>{
