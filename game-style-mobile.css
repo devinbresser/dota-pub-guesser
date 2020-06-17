@@ -1,7 +1,11 @@
-@media screen and (max-width:860px){
+@media screen and (max-width:1025px){
 
     #begin-game-button{
         margin-bottom:45%;
+    }
+
+    #prev-match-text{
+        
     }
 
     .main-unit{

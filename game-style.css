@@ -31,13 +31,21 @@ h1{
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
+    justify-content:flex-start;
+}
+
+#title-unit-block{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+    top:30%;
 }
 
 #begin-game-button{
     width:225px;
     cursor:pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 #begin-game-button:hover{
@@ -45,22 +53,27 @@ h1{
 }
 
 .animated-begin-button-1{
-    animation: shrink-1st-half 0.7s cubic-bezier(.6,.15,.91,.65);
+    animation: shrink 0.6s cubic-bezier(.6,.15,.91,.65);
 }
 
-@keyframes shrink-1st-half{
+.animated-begin-button-2{
+    animation: unshrink 0.6s cubic-bezier(.6,.15,.91,.65);
+    animation-fill-mode: forwards;
+}
+
+@keyframes shrink{
     0%{
-        transform:scale(1);
+        transform:scaleX(1);
     }100%{
-        transform:scaleY(0.01);
+        transform:scaleX(0.01);
     }
 
 }
-@keyframes shrink-2nd-half{
+@keyframes unshrink{
     0%{
-        transform:scale(1);
+        transform:scaleX(0.01);
     }100%{
-        transform:scaleY(0.5);
+        transform:scaleX(1);
     }
 
 }
@@ -108,9 +121,16 @@ h1{
     margin-left:10px;
 }
 
+#streak-text{
+    position:relative;
+    top:294px;
+    left:725px;
+}
+
 #prev-match-text{
     position: absolute;
-    top: 537px;
+    top: 487px;
+    left:108px;
 }
 
 
