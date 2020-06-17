@@ -20,6 +20,14 @@ h1{
     font-size: 25px;
 }
 
+a{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
 /* css for the title overlay block  */
 .title-unit{
     position:absolute;
@@ -79,10 +87,20 @@ h1{
 }
 
 /* css for the main game unit */
+
+#game-ui{
+    overflow-x:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    margin-top:-10%;
+}
+
+
 .main-unit{
     z-index:1;
     height:30vh;
-    margin-bottom:18vh;
+    /* margin-bottom:18vh; */
     width:675px;
     display:flex;
     flex-direction:column;
@@ -91,7 +109,7 @@ h1{
 }
 
 
-#info-bar{
+.info-bar{
     display:flex;
     flex-direction:row;
     justify-content:flex-start;
@@ -99,6 +117,10 @@ h1{
     margin-left:auto;
     margin-right:auto;
     margin-bottom:2px;
+}
+
+#info-bar-bottom{
+    justify-content:space-between;
 }
 
 .fading-out{
@@ -122,15 +144,11 @@ h1{
 }
 
 #streak-text{
-    position:relative;
-    top:294px;
-    left:725px;
+
 }
 
 #prev-match-text{
-    position: absolute;
-    top: 487px;
-    left:108px;
+
 }
 
 

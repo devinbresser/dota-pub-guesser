@@ -1,5 +1,8 @@
-@media screen and (max-width:1025px){
+@media screen and (max-width:950px){
 
+    .body{
+        justify-content:flex-start;
+    }
     #begin-game-button{
         margin-bottom:45%;
     }
@@ -11,8 +14,8 @@
     .main-unit{
        width:100vw;
     }
-    #info-bar{
-        width:100vw;
+    .info-bar{
+        width:auto;
     }
     .team-box{
         width:100vw;

@@ -22,12 +22,13 @@
         <img id="begin-game-button" src="./images/begin-button.png" alt="ENTER GAME">
     </div>
 </div> 
-   `<p id="streak-text" class="info-bar-text"></p>
-    <a id="prev-match-text" href="" target="_blank" class="info-bar-text"></a>
-    <div id="info-bar">        
+
+<div id="game-ui">
+
+    <div id="info-bar-top" class="info-bar">         
         <p id="region-text" class="info-bar-text"></p>
         <p id="duration-text" class="info-bar-text"></p>
-        <p id="rank-text" class="info-bar-text"></p>
+        <p id="rank-text" class="info-bar-text"></p>        
     </div>
 
     <div class="main-unit">
@@ -44,11 +45,11 @@
             </div>
                 -->
             <div id="radiant-ranks-box" class="roles-box">
-                <div class="rank-image-box"><img id=radiant-rank1 src=""></div>
-                <div class="rank-image-box"><img id=radiant-rank2 src=""></div>
-                <div class="rank-image-box"><img id=radiant-rank3 src=""></div>
-                <div class="rank-image-box"><img id=radiant-rank4 src=""></div>
-                <div class="rank-image-box"><img id=radiant-rank5 src=""></div>
+                <span class="rank-image-box"><img id=radiant-rank1 src="">
+                <span class="rank-image-box"><img id=radiant-rank2 src="">
+                <span class="rank-image-box"><img id=radiant-rank3 src="">
+                <span class="rank-image-box"><img id=radiant-rank4 src="">
+                <span class="rank-image-box"><img id=radiant-rank5 src="">
             </div>
             <div id="radiant-team-box" class="team-box" style="">  
                 <div class="hero-image-box radiant-image-box">
@@ -93,6 +94,14 @@
         <p class="dire-text">THE DIRE</p>
         </div>
     </div>
+
+    <div id="info-bar-bottom" class="info-bar">
+        <p id="streak-text" class="info-bar-text"></p>
+        <a id="prev-match-text" href="" target="_blank" class="info-bar-text"></a>   
+    </div>
+
+</div>
+
 <script src="./js/dota-pub-script.js"></script>
 </body>
 
