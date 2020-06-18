@@ -573,8 +573,11 @@ var radiantLineup = document.getElementById("radiant-lineup");
 var direLineup = document.getElementById("dire-lineup");
 var beginButton = document.getElementById("begin-game-button");
 var titleUnit = document.getElementById("title-unit");
-var infoBar = document.getElementById("info-bar-top");
+var infoBarTop = document.getElementById("info-bar-top");
+var infoBarBottom = document.getElementById("info-bar-bottom")
 var aboutGame = document.getElementById("about-game");
+var checkbox = document.getElementById("checkbox");
+var loseBox = document.getElementById("lose-box");
 
 //var heroListUrl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key="+apiKey;
 
@@ -610,7 +613,7 @@ function setup(){
         .then(res => res.json())
         .then(matchData => {
             initMatch(matchData);
-            console.log("https://opendota.com/matches/"+matchData.match_id)
+            //console.log("https://opendota.com/matches/"+matchData.match_id)
             if(index>=2){
                 previousMatchId = "https://opendota.com/matches/"+matchArray[index-2].match_id;
                 document.getElementById("prev-match-text").innerHTML = "PREVIOUS MATCH";
@@ -620,7 +623,10 @@ function setup(){
         radiantLineup.onanimationend = () =>{
             radiantLineup.classList.remove("radiant-donezo-box");
             direLineup.classList.remove("dire-donezo-box");
-            infoBar.classList.remove("fading-out");
+            infoBarTop.classList.remove("fading-out");
+            infoBarBottom.classList.remove("fading-out");
+            checkbox.classList.remove("fade-in");
+            checkbox.style.visibility="hidden";
         }
 }
 
@@ -712,11 +718,6 @@ function fillHeroArray(data){
     }
 }
 
-// isRanked: returns true when the game is ranked, and false otherwise (for consistent rank data)
-function isRanked(data){
-    console.log(data.game_mode==22);
-    return data.game_mode==22;
-}
 
 // initMatch: initializes the page for a new round by processing match data
 function initMatch(data){
@@ -724,7 +725,7 @@ function initMatch(data){
     fillHeroArray(data);
     //sortLanes(data);
     
-    document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region)+" RADIANTWIN: "+data.radiant_win;
+    document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region);
     document.getElementById("duration-text").innerHTML = "DURATION: "+getDuration(data.duration);
     document.getElementById("rank-text").innerHTML = "AVERAGE RANK: "+ranks[-1+(Math.round(matchArray[index-1].avg_rank_tier/10))];
     document.getElementById("streak-text").innerHTML = "STREAK: "+streak;
@@ -746,14 +747,15 @@ function initMatch(data){
 }
 
 // backToMenu: returns back to the begin page with some additional information
-function backToMenu(){   
-    //index++;
-    streak=0;
-    titleUnit.classList.remove("animated-begin-button-1");
-    titleUnit.style.visibility="visible"; 
+function openLoseBox(){   
+    document.getElementById("lose-match-text").innerHTML = "https://dotabuff.com/matches/"+matchArray[index-1].match_id;
+    document.getElementById("lose-match-text").href = "https://dotabuff.com/matches/"+matchArray[index-1].match_id;
+    document.getElementById("lose-streak-log").innerHTML = "Your streak: "+streak;
     radiantLineup.classList.remove("radiant-entering-box");
     direLineup.classList.remove("dire-entering-box");
-    //aboutGame.style.visibility="visible";
+    checkbox.classList.remove("fade-in");
+    loseBox.classList.add("lose-box-entry");
+    loseBox.style.visibility="visible";
 }
 
 
@@ -766,7 +768,7 @@ beginButton.onclick = function(){
     titleUnit.classList.add("animated-begin-button-1");
     radiantLineup.classList.add("radiant-entering-box");
     direLineup.classList.add("dire-entering-box");
-    setup();       
+    setup();     
     titleUnit.onanimationend = () =>{ 
     titleUnit.style.visibility="hidden";
 
@@ -779,26 +781,44 @@ beginButton.onclick = function(){
 createMatchArray();
 
 
-// when a victory button is clicked, do something...
+// when a button is clicked, do something...
+
+document.getElementById("lose-logo").onclick=function(){
+    alert("Hoho! Haha! Shrapnel!!");
+}
+
+document.getElementById("play-again").onclick=function(){
+    streak=0;
+    document.getElementById("prev-match-text").innerHTML = "";
+    radiantLineup.classList.add("radiant-entering-box");
+    direLineup.classList.add("dire-entering-box");
+    loseBox.style.visibility="hidden";
+    setup();
+}
+
 document.getElementById("radiant-lineup").onclick = function(){
     if(!victor){
-        backToMenu();
-
+        openLoseBox();
     }
+
     if(victor){
         streak++;
         radiantLineup.classList.remove("radiant-entering-box");
         direLineup.classList.remove("dire-entering-box");
         radiantLineup.classList.add("radiant-donezo-box");
         direLineup.classList.add("dire-donezo-box");
-        infoBar.classList.add("fading-out");
+        infoBarTop.classList.add("fading-out");
+        infoBarBottom.classList.add("fading-out");
+        checkbox.classList.add("fade-in")
+        checkbox.style.visibility="visible";
+        document.getElementById("checkbox-text").innerHTML = "CORRECT!";
         setup();
     }
 }
 
 document.getElementById("dire-lineup").onclick = function(){
     if(victor){
-        backToMenu();
+        openLoseBox();
     }
 
     if(victor==false){ 
@@ -807,10 +827,15 @@ document.getElementById("dire-lineup").onclick = function(){
         direLineup.classList.remove("dire-entering-box");
         radiantLineup.classList.add("radiant-donezo-box");
         direLineup.classList.add("dire-donezo-box");
-        infoBar.classList.add("fading-out");
+        infoBarTop.classList.add("fading-out");
+        infoBarBottom.classList.add("fading-out");
+        checkbox.classList.add("fade-in")
+        checkbox.style.visibility="visible";
+        document.getElementById("checkbox-text").innerHTML = "CORRECT!";
         setup(); 
     }
 }
+
 
 
 
