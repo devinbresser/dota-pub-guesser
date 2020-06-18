@@ -122,10 +122,9 @@ a{
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    top:200px;
     background:black;
     height:50vh;
-    width:675px;
+    width:100vw;
     visibility:hidden;
 }
 
