@@ -578,6 +578,8 @@ var infoBarBottom = document.getElementById("info-bar-bottom")
 var aboutGame = document.getElementById("about-game");
 var checkbox = document.getElementById("checkbox");
 var loseBox = document.getElementById("lose-box");
+var hoho = new Audio("./audio/hohohaha.mp3")
+hoho.volume = 0.1;
 
 //var heroListUrl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key="+apiKey;
 
@@ -784,6 +786,7 @@ createMatchArray();
 // when a button is clicked, do something...
 
 document.getElementById("lose-logo").onclick=function(){
+    hoho.play();
     alert("Hoho! Haha! Shrapnel!!");
 }
 
@@ -792,6 +795,7 @@ document.getElementById("play-again").onclick=function(){
     document.getElementById("prev-match-text").innerHTML = "";
     radiantLineup.classList.add("radiant-entering-box");
     direLineup.classList.add("dire-entering-box");
+    loseBox.classList.remove("lose-box-entry");
     loseBox.style.visibility="hidden";
     setup();
 }
