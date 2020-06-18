@@ -18,6 +18,11 @@ body{
 
 h1{
     font-size: 25px;
+    font-family:'Open Sans Condensed',sans-serif;
+}
+
+p{
+    font-family:'Open Sans Condensed',sans-serif;
 }
 
 a{
@@ -47,7 +52,11 @@ a{
     flex-direction:column;
     align-items:center;
     position:relative;
-    top:30%;
+    top:10%;
+}
+
+#title-unit-block img{
+    transform: scale(0.75);
 }
 
 #begin-game-button{
@@ -57,7 +66,7 @@ a{
 }
 
 #begin-game-button:hover{
-    transform:scale(1.25);
+    transform:scale(1);
 }
 
 .animated-begin-button-1{
@@ -88,7 +97,16 @@ a{
 
 /* css for the main game unit */
 
+#checkbox{
+    z-index:1;
+    height:14px;
+    margin: 0 auto;
+    margin-bottom:-10%;
+    visibility:hidden;
+}
+
 #game-ui{
+    z-index:2;
     overflow-x:hidden;
     display:flex;
     flex-direction:column;
@@ -96,10 +114,43 @@ a{
     margin-top:-10%;
 }
 
-#separator{
-    z-index:1;
-    visibility:visible;
+
+#lose-box{
+    z-index:99;
+    position:absolute;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    top:200px;
+    background:black;
+    height:50vh;
+    width:675px;
+    visibility:hidden;
 }
+
+#lose-box img{
+    transform:scale(0.75);
+    transition: transform 0.2s ease;
+    cursor:pointer;
+}
+
+#lose-box img:hover{
+    transform:scale(0.84);
+}
+
+
+.lose-box-entry{
+    animation: lose-box 0.3s ease;
+}
+@keyframes lose-box{
+    0%{
+        opacity:0.5;
+    }100%{
+        opacity:1;
+    }
+}
+
 
 
 .main-unit{
@@ -115,6 +166,7 @@ a{
 
 
 .info-bar{
+    z-index:2;
     display:flex;
     flex-direction:row;
     justify-content:flex-start;
@@ -129,7 +181,7 @@ a{
 }
 
 .fading-out{
-    animation: fading-out ease-in-out 0.3s;
+    animation: fading-out 0.7s cubic-bezier(0,1.49,1,1.02);
 }
 @keyframes fading-out{
     0%{
@@ -149,11 +201,11 @@ a{
 }
 
 #streak-text{
-
+    margin-block-start:0.25em;
 }
 
 #prev-match-text{
-
+    margin-block-start:0.25em;
 }
 
 
@@ -205,11 +257,21 @@ a{
     margin-bottom:0px;
 }
 
+#checkbox-text{
+    position:relative;
+    top:-17px;
+    margin: auto auto;
+}
+
+.fade-in{
+    animation: fade-in 1s;
+}
 @keyframes fade-in{
     0%{
-        opacity:0;
-    }100%{
         opacity:1;
+    }100%{
+        opacity:0;
+        transform: scale(1.3);
     }
 }
 
@@ -307,7 +369,7 @@ a{
     text-align:center;
     max-width:95px;
     min-width:95px;
-    margin: 0 10px;
+    margin: 0 8px;
 }
 /* original image aspect ratio: 1.782 */
 .radiant-image-box{
@@ -347,7 +409,6 @@ a{
     left:0px;
     transform:skewX(-5.5deg);
 }
-
 
 
 

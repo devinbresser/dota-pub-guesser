@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cool Game Page</title>
+    <title>Dota Pub Guesser</title>
     <link rel="stylesheet" href="./game-style.css">
     <link rel="stylesheet" href="./game-style-mobile.css">
     <link rel="stylesheet"
@@ -16,18 +16,18 @@
 <body>
     
 <div id="title-unit" class="title-unit">
-    <div id="title-unit-block">
-        <h1>Welcome to Dota Pub Guesser</h1>
-        <p>Test</p>
+    <div id="title-unit-block">        
+        <img src="./images/guesser-logo.png" alt="guesser-logo">
+        <h1>DOTA PUB GUESSER</h1>
+        <p>Try to guess which team won!</p>
         <img id="begin-game-button" src="./images/begin-button.png" alt="ENTER GAME">
     </div>
 </div> 
 
-<div id="separator">
-    <div id="checkbox">
-        <p>test</p>
-    </div>
+<div id="checkbox">
+    <p id="checkbox-text" class="info-bar-text"></p>
 </div>
+
 
 <div id="game-ui">
 
@@ -97,13 +97,23 @@
                 </div> -->
         <p class="dire-text">THE DIRE</p>
         </div>
+
+ 
+
     </div>
 
     <div id="info-bar-bottom" class="info-bar">
-        <p id="streak-text" class="info-bar-text"></p>
-        <a id="prev-match-text" href="" target="_blank" class="info-bar-text"></a>   
+        <a id="prev-match-text" href="" target="_blank" class="info-bar-text"></a> 
+        <p id="streak-text" class="info-bar-text"></p>   
     </div>
 
+    <div id="lose-box">
+        <p class="info-bar-text">You guessed wrong on this match:</p>
+        <a id="lose-match-text" href="" target="_blank" class="info-bar-text"></a>
+        <img id="lose-logo" src="./images/guesser-logo-small.png" alt="guesser-logo">
+        <p id="lose-streak-log" class="info-bar-text"></p>
+        <img id="play-again" src="./images/play-again.png" alt="PLAY AGAIN">
+    </div>
 </div>
 
 <script src="./js/dota-pub-script.js"></script>

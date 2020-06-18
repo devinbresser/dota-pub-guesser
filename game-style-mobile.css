@@ -7,8 +7,8 @@
         margin-bottom:45%;
     }
 
-    #prev-match-text{
-        
+    .info-bar-text{
+        font-size:16px;
     }
 
     .main-unit{
@@ -20,6 +20,9 @@
     .team-box{
         width:100vw;
     } 
+    #lose-box{
+        width:100vw;
+    }
     .hero-image-box{
         min-width:0px;
         margin: 0 5px;
