@@ -1,5 +1,5 @@
 // first-time initialization (any way to clean this up??)
-const heroList = { // a slightly smaller json file containing hero data
+const heroList = {
     "result":{
     "heroes":[
     {
@@ -477,13 +477,21 @@ const heroList = { // a slightly smaller json file containing hero data
     {
     "name":"npc_dota_hero_snapfire",
     "id":128
+    },
+    {
+    "name":"npc_dota_hero_hoodwink",
+    "id":123
+    },
+    {
+    "name":"npc_dota_hero_dawnbreaker",
+    "id":135
     }
     ]
     ,
     "status":200,
-    "count":119
+    "count":121
     }
-    } 
+    }
 
 const regionList = { 
     "regions":[
@@ -558,7 +566,7 @@ const regionList = {
     ]
 }
 const goodLobbyTypes = [1,2,3,4,5,16,22];
-const endingMatchId = 5815515416;
+const endingMatchId = 5951393743;
 const ranks = ['HERALD','GUARDIAN','CRUSADER','ARCHON','LEGEND','ANCIENT','DIVINE','IMMORTAL']
 var heroArray = [];
 var laneArray = [];
@@ -616,7 +624,8 @@ function setup(){
         .then(res => res.json())
         .then(matchData => {
             initMatch(matchData);
-            //console.log("https://opendota.com/matches/"+matchData.match_id)
+            console.log("https://opendota.com/matches/"+matchData.match_id)
+            console.log("Victor: ", victor)
             if(index>=2){
                 previousMatchId = "https://opendota.com/matches/"+matchArray[index-2].match_id;
                 document.getElementById("prev-match-text").innerHTML = "PREVIOUS MATCH";
@@ -688,7 +697,7 @@ function coreSupportSort(data){
 
 // getCleanHeroName: get clean hero name from ID
 function getCleanHeroName(heroId){
-    for(let i=0; i<120;i++){
+    for(let i=0; i<200;i++){
         if(heroId == heroList.result.heroes[i].id){
             return heroList.result.heroes[i].name.replace('npc_dota_hero_','');;
         }
@@ -740,11 +749,11 @@ function initMatch(data){
     
     // populate the images from hero info in the JSON file
     for(let i=0; i<5;i++){
-        document.getElementById("radiant"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[i]+"_lg.png";
+        document.getElementById("radiant"+(1+i)).src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/"+heroArray[i]+".png";
         document.getElementById("radiant-rank"+(1+i)).src="./images/ranks/"+ranksArray[i]+".png";
     }
     for(let i=0; i<5;i++){
-        document.getElementById("dire"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[5+i]+"_lg.png";
+        document.getElementById("dire"+(1+i)).src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/"+heroArray[5+i]+".png";
         document.getElementById("dire-rank"+(1+i)).src="./images/ranks/"+ranksArray[5+i]+".png";
     }
 }
@@ -847,4 +856,4 @@ document.getElementById("dire-lineup").onclick = function(){
 
 
 // location of hero icons:
-// http://cdn.dota2.com/apps/dota2/images/heroes/[HERONAME]_lg.png
+// https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/[HERONAME WITH UNDERSCORE FOR SPACE].png
