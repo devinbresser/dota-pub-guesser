@@ -557,13 +557,16 @@ const regionList = {
     },
     ]
 }
+const goodLobbyTypes = [1,2,3,4,5,16,22];
+const endingMatchId = 5815515416;
 const ranks = ['HERALD','GUARDIAN','CRUSADER','ARCHON','LEGEND','ANCIENT','DIVINE','IMMORTAL']
 var heroArray = [];
 var laneArray = [];
 var ranksArray = [];
 var beforeArray = [];
 var previousMatchId;
-var index = 15;
+var victor;
+var index = 0;
 var streak = 0;
 var matchArray = [];
 var radiantLineup = document.getElementById("radiant-lineup");
@@ -588,22 +591,36 @@ document.body.style.backgroundImage="url(./images/body-bgs/body-bg"+bgNumber+".p
 /////////////////////////////////////////////////////////////
 // helper methods:
 
+// createMatchArray: retrieves a cleaned-up public match array from the opendota API
+function createMatchArray(){
+fetch('https://api.opendota.com/api/publicMatches/?less_than_match_id='+(endingMatchId-Math.floor(Math.random()*50000)))
+    .then(res => res.json())
+    .then(matchList =>{
+        matchArray=matchList;
+        filterBadMatches(matchArray);
+    })
+}
 // setup: initialize the page based on a match
 function setup(){
     heroArray = [];
     laneArray = [];
     ranksArray = [];
-
-    fetch(`http://localhost:3000/getRandomMatchData/`)
+    console.log("Index: ", index)
+    // processing for a 99+ correct streak (if you have such a streak, you've probably read this...)
+    if(index==matchArray.length-1){
+        index=0;
+        createMatchArray();
+    }
+    var nextMatchId = grabNextMatch(matchArray);
+    fetch('https://api.opendota.com/api/matches/'+nextMatchId)
         .then(res => res.json())
         .then(matchData => {
             initMatch(matchData);
-            console.log("https://opendota.com/matches/"+matchData.match_id)
+            //console.log("https://opendota.com/matches/"+matchData.match_id)
             if(index>=2){
+                previousMatchId = "https://opendota.com/matches/"+matchArray[index-2].match_id;
                 document.getElementById("prev-match-text").innerHTML = "PREVIOUS MATCH";
-                //document.getElementById("prev-match-text").href = "https://dotabuff.com/matches/"+matchArray[index-2].match_id;
-                
-
+                document.getElementById("prev-match-text").href = "https://dotabuff.com/matches/"+matchArray[index-2].match_id;
             }
         })
         radiantLineup.onanimationend = () =>{
@@ -614,6 +631,25 @@ function setup(){
             checkbox.classList.remove("fade-in");
             checkbox.style.visibility="hidden";
         }
+}
+
+// grabNextMatch: grab a random item from opendota's fetched match list 
+function grabNextMatch(matchArray){
+    var matchToReturn = matchArray[index].match_id;
+    index++;
+    return matchToReturn;
+}
+
+
+// filterBadMatches: filters matches under 21 minutes in duration and in unusual modes
+function filterBadMatches(matchArray){
+    // scan all matches for bad ones and toss them
+    for(let i=0;i<matchArray.length;i++){
+        if(matchArray[i].duration<1200 || !goodLobbyTypes.includes(matchArray[i].game_mode)){
+            console.log("Removed bad match: https://opendota.com/matches/"+matchArray[i].match_id);
+            matchArray.splice(i,1);
+        }
+    }
 }
 
 /*
@@ -643,16 +679,21 @@ function sortLanes(data){
 }
 */
 
+/*
+// coreSupportSort: approximately sorts into core vs support
+function coreSupportSort(data){
+    //todo
+}
+*/
 
 // getCleanHeroName: get clean hero name from ID
 function getCleanHeroName(heroId){
-    for(let i=0; i<heroList.result.heroes.length;i++){
+    for(let i=0; i<120;i++){
         if(heroId == heroList.result.heroes[i].id){
-            return heroList.result.heroes[i].name.replace('npc_dota_hero_','');
+            return heroList.result.heroes[i].name.replace('npc_dota_hero_','');;
         }
     }
 }
-
 
 // getRegion: retrieves the region name from the dictionary, or "UNKNOWN" if not found
 function getRegion(regionId){
@@ -664,20 +705,6 @@ function getRegion(regionId){
 return "UNKNOWN";
 }
 
-// getAverageRank: retrieves the match's approximate average rank by aggregating
-function getAverageRank(data){
-var totalRank = 0;
-var rankCount = 0;
-    for(var i=0; i<10; i++){
-        if(!data.players[i].rank_tier.equals(null)){
-            totalRank += data.players[i].rank_tier;
-            rankCount++;
-        }
-    }
-    console.log(`Just got the average rank tier of: ${totalRank/rankCount}`)
-    return Math.round(totalRank/rankCount);
-}
-
 // getDuration: retrieves the match's duration in minutes:seconds format
 function getDuration(duration){
     if(duration % 60 <10) return String(Math.floor(duration/60))+":0"+String(duration % 60);
@@ -687,42 +714,45 @@ function getDuration(duration){
 // fillHeroArray: fills the hero array with the id's of heroes from the json
 // converted to clean names for image retrieval
 // also fills the ranks array with rank information
-function fillHeroArrays(data){
+function fillHeroArray(data){
     for(let i=0; i<10; i++){
-        heroArray.push(data.players[i].hero_id);
+        heroArray.push(getCleanHeroName(data.players[i].hero_id));
+        ranksArray.push(data.players[i].rank_tier);
     }
-    /*
-    [radiantArray[0],radiantArray[1]]=[radiantArray[1],radiantArray[0]];
-    [radiantArray[1],radiantArray[2]]=[radiantArray[2],radiantArray[1]];
-    [direArray[0],direArray[1]]=[direArray[1],direArray[0]];
-    [direArray[1],direArray[2]]=[direArray[2],direArray[1]];
-    */
 }
 
 
 // initMatch: initializes the page for a new round by processing match data
 function initMatch(data){
-    fillHeroArrays(data);
-    document.getElementById("region-text").innerHTML = `REGION: ${getRegion(data.region)}`
-    document.getElementById("duration-text").innerHTML = `DURATION: ${getDuration(data.duration)}`;
-    document.getElementById("rank-text").innerHTML = `AVERAGE RANK: todo`;
+    victor = data.radiant_win;
+    fillHeroArray(data);
+    //sortLanes(data);
+    
+    document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region);
+    document.getElementById("duration-text").innerHTML = "DURATION: "+getDuration(data.duration);
+    document.getElementById("rank-text").innerHTML = "AVERAGE RANK: "+ranks[-1+(Math.round(matchArray[index-1].avg_rank_tier/10))];
     document.getElementById("streak-text").innerHTML = "STREAK: "+streak;
+    // temporarily scrapped: individual rank data
+    // if(!isRanked(data)){
+    //     document.getElementById("radiant-ranks-box").style.display="none";
+    //     document.getElementById("dire-ranks-box").style.display="none";
+    // }
     
     // populate the images from hero info in the JSON file
     for(let i=0; i<5;i++){
-        document.getElementById("radiant"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+getCleanHeroName(heroArray[i])+"_lg.png";
-        //document.getElementById("radiant-rank"+(1+i)).src="./images/ranks/"+ranksArray[i]+".png";
+        document.getElementById("radiant"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[i]+"_lg.png";
+        document.getElementById("radiant-rank"+(1+i)).src="./images/ranks/"+ranksArray[i]+".png";
     }
     for(let i=0; i<5;i++){
-        document.getElementById("dire"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+getCleanHeroName(heroArray[i+5])+"_lg.png";
-        //document.getElementById("dire-rank"+(1+i)).src="./images/ranks/"+ranksArray[5+i]+".png";
+        document.getElementById("dire"+(1+i)).src="http://cdn.dota2.com/apps/dota2/images/heroes/"+heroArray[5+i]+"_lg.png";
+        document.getElementById("dire-rank"+(1+i)).src="./images/ranks/"+ranksArray[5+i]+".png";
     }
 }
 
 // backToMenu: returns back to the begin page with some additional information
 function openLoseBox(){   
-    //document.getElementById("lose-match-text").innerHTML = "https://dotabuff.com/matches/"+matchArray[index-1].match_id;
-    //document.getElementById("lose-match-text").href = "https://dotabuff.com/matches/"+matchArray[index-1].match_id;
+    document.getElementById("lose-match-text").innerHTML = "https://dotabuff.com/matches/"+matchArray[index-1].match_id;
+    document.getElementById("lose-match-text").href = "https://dotabuff.com/matches/"+matchArray[index-1].match_id;
     document.getElementById("lose-streak-log").innerHTML = "Your streak: "+streak;
     radiantLineup.classList.remove("radiant-entering-box");
     direLineup.classList.remove("dire-entering-box");
@@ -751,9 +781,8 @@ beginButton.onclick = function(){
 //////////////////////////////////////////////////////////////
 // script for the main game functionality
 
-// createMatchArray();
-//callMyServer();
-//getRandomMatch();
+createMatchArray();
+
 
 // when a button is clicked, do something...
 
@@ -772,7 +801,6 @@ document.getElementById("play-again").onclick=function(){
     setup();
 }
 
-// sends data that the user selected radiant to win
 document.getElementById("radiant-lineup").onclick = function(){
     if(!victor){
         openLoseBox();
@@ -793,7 +821,6 @@ document.getElementById("radiant-lineup").onclick = function(){
     }
 }
 
-// sends data that the user selected dire to win
 document.getElementById("dire-lineup").onclick = function(){
     if(victor){
         openLoseBox();
