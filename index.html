@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dota Pub Guesser</title>
+    <link rel="stylesheet" href="./game-style.css">
+    <link rel="stylesheet" href="./game-style-mobile.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans+Condensed:300" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200&display=swap">
+    <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    
+<div id="title-unit" class="title-unit">
+    <div id="title-unit-block">        
+        <img src="./images/guesser-logo.png" alt="guesser-logo">
+        <h1>DOTA PUB GUESSER</h1>
+        <p>Try to guess which team won!</p>
+        <img id="begin-game-button" src="./images/begin-button.png" alt="ENTER GAME">
+    </div>
+</div> 
+
+<div id="checkbox">
+    <p id="checkbox-text" class="info-bar-text"></p>
+</div>
+
+
+<div id="game-ui">
+
+    <div id="info-bar-top" class="info-bar">         
+        <p id="region-text" class="info-bar-text"></p>
+        <p id="duration-text" class="info-bar-text"></p>
+        <p id="rank-text" class="info-bar-text"></p>        
+    </div>
+
+    <div class="main-unit">
+       
+        <div id="radiant-lineup" class="lineup">
+
+            <p class="radiant-text">THE RADIANT</p>
+            <!-- <div id="radiant-roles-box" class="roles-box">
+                <div class="hero-image-box"><p></p></div>
+                <div class="hero-image-box"><p></p></div>
+                <div class="hero-image-box"><p></p></div>
+                <div class="hero-image-box"><p></p></div>
+                <div class="hero-image-box"><p></p></div>
+            </div>
+                -->
+            <div id="radiant-ranks-box" class="roles-box">
+                <span class="rank-image-box"><img id=radiant-rank1 src="">
+                <span class="rank-image-box"><img id=radiant-rank2 src="">
+                <span class="rank-image-box"><img id=radiant-rank3 src="">
+                <span class="rank-image-box"><img id=radiant-rank4 src="">
+                <span class="rank-image-box"><img id=radiant-rank5 src="">
+            </div>
+            <div id="radiant-team-box" class="team-box" style="">  
+                <div class="hero-image-box radiant-image-box">
+                    <img class="radiant-hero-pic" id="radiant1" src=""></div>
+                <div class="hero-image-box radiant-image-box"><img class="radiant-hero-pic" id="radiant2" src=""></div>
+                <div class="hero-image-box radiant-image-box"><img class="radiant-hero-pic" id="radiant3" src=""></div>
+                <div class="hero-image-box radiant-image-box"><img class="radiant-hero-pic" id="radiant4" src=""></div>
+                <div class="hero-image-box radiant-image-box"><img class="radiant-hero-pic" id="radiant5" src=""></div>
+            </div>
+
+        </div>
+        
+        <div id="dire-lineup" class="lineup">
+                
+                <div id="dire-team-box" class="team-box" style="">
+                    <div class="hero-image-box dire-image-box"><img class="dire-hero-pic" id="dire1" src=""></div>
+                    <div class="hero-image-box dire-image-box"><img class="dire-hero-pic" id="dire2" src=""></div>
+                    <div class="hero-image-box dire-image-box"><img class="dire-hero-pic" id="dire3" src=""></div>
+                    <div class="hero-image-box dire-image-box"><img class="dire-hero-pic" id="dire4" src=""></div>
+                    <div class="hero-image-box dire-image-box">
+                        <img class="dire-hero-pic" id="dire5" src=""></div>
+                        <!-- <p class="dire-text">THE DIRE</p> -->
+                </div>
+                <div id="dire-ranks-box" class="roles-box">
+                    <div class="rank-image-box"><img id=dire-rank1 src=""></div>
+                    <div class="rank-image-box"><img id=dire-rank2 src=""></div>
+                    <div class="rank-image-box"><img id=dire-rank3 src=""></div>
+                    <div class="rank-image-box"><img id=dire-rank4 src=""></div>
+                    <div class="rank-image-box"><img id=dire-rank5 src=""></div>
+                </div>
+
+                <!-- 
+                <div id="dire-roles-box" class="roles-box">
+                    <div class="hero-image-box"><p></p></div>
+                    <div class="hero-image-box"><p></p></div>
+                    <div class="hero-image-box"><p></p></div>
+                    <div class="hero-image-box"><p></p></div>
+                    <div class="hero-image-box"><p></p></div>
+                </div> -->
+        <p class="dire-text">THE DIRE</p>
+        </div>
+
+ 
+
+    </div>
+
+    <div id="info-bar-bottom" class="info-bar">
+        <a id="prev-match-text" href="" target="_blank" class="info-bar-text"></a> 
+        <p id="streak-text" class="info-bar-text"></p>   
+    </div>
+
+    <div id="lose-box">
+        <p class="info-bar-text">You guessed wrong on this match:</p>
+        <a id="lose-match-text" href="" target="_blank" class="info-bar-text"></a>
+        <img id="lose-logo" src="./images/guesser-logo-small.png" alt="guesser-logo">
+        <p id="lose-streak-log" class="info-bar-text"></p>
+        <img id="play-again" src="./images/play-again.png" alt="PLAY AGAIN">
+    </div>
+</div>
+
+<script src="./js/dota-pub-script.js"></script>
+</body>
+
+</html>

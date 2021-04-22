@@ -1,0 +1,32 @@
+@media screen and (max-width:950px){
+
+    .body{
+        justify-content:flex-start;
+    }
+    #begin-game-button{
+        margin-bottom:45%;
+    }
+
+    .info-bar-text{
+        font-size:16px;
+    }
+
+    .main-unit{
+       width:100vw;
+    }
+    .info-bar{
+        width:auto;
+    }
+    .team-box{
+        width:100vw;
+    } 
+    #lose-box{
+        left:0px;
+        width:100vw;
+    }
+    .hero-image-box{
+        min-width:0px;
+        margin: 0 5px;
+
+    }
+}

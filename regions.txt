@@ -1,0 +1,16 @@
+1: us west
+2:us east
+3: luxembourg
+5:singapore
+6:dubai
+7:australia
+8:stockholm
+9:austria
+11:south africa
+13:china
+14:chile
+15:peru
+16:india
+19:japan
+20:china
+undefined: unknown
