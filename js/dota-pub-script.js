@@ -485,6 +485,10 @@ const heroList = {
     {
     "name":"npc_dota_hero_dawnbreaker",
     "id":135
+    },
+    {
+    "name":"npc_dota_hero_marci",
+    "id":136
     }
     ]
     ,
@@ -566,7 +570,7 @@ const regionList = {
     ]
 }
 const goodLobbyTypes = [1,2,3,4,5,16,22];
-const endingMatchId = 5951393743;
+const endingMatchId = 6334411440;
 const ranks = ['HERALD','GUARDIAN','CRUSADER','ARCHON','LEGEND','ANCIENT','DIVINE','IMMORTAL']
 var heroArray = [];
 var laneArray = [];
@@ -588,6 +592,7 @@ var checkbox = document.getElementById("checkbox");
 var loseBox = document.getElementById("lose-box");
 var hoho = new Audio("./audio/hohohaha.mp3")
 hoho.volume = 0.1;
+
 
 //var heroListUrl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key="+apiKey;
 
@@ -735,6 +740,7 @@ function fillHeroArray(data){
 function initMatch(data){
     victor = data.radiant_win;
     fillHeroArray(data);
+
     //sortLanes(data);
     
     document.getElementById("region-text").innerHTML = "REGION: "+getRegion(data.region);
@@ -792,7 +798,6 @@ beginButton.onclick = function(){
 
 createMatchArray();
 
-
 // when a button is clicked, do something...
 
 document.getElementById("lose-logo").onclick=function(){
@@ -811,6 +816,7 @@ document.getElementById("play-again").onclick=function(){
 }
 
 document.getElementById("radiant-lineup").onclick = function(){
+    
     if(!victor){
         openLoseBox();
     }
@@ -831,6 +837,7 @@ document.getElementById("radiant-lineup").onclick = function(){
 }
 
 document.getElementById("dire-lineup").onclick = function(){
+
     if(victor){
         openLoseBox();
     }
