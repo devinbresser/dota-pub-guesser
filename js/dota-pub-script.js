@@ -489,11 +489,19 @@ const heroList = {
     {
     "name":"npc_dota_hero_marci",
     "id":136
+    },
+    {
+    "name":"npc_dota_hero_primal_beast",
+    "id":137
+    },
+    {
+    "name":"npc_dota_hero_muerta",
+    "id":138
     }
     ]
     ,
     "status":200,
-    "count":121
+    "count":123
     }
     }
 
@@ -570,7 +578,7 @@ const regionList = {
     ]
 }
 const goodLobbyTypes = [1,2,3,4,5,16,22];
-const endingMatchId = 6334411440;
+const endingMatchId = 7518529914;
 const ranks = ['HERALD','GUARDIAN','CRUSADER','ARCHON','LEGEND','ANCIENT','DIVINE','IMMORTAL']
 var heroArray = [];
 var laneArray = [];
